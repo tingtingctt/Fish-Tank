@@ -8,7 +8,7 @@ var ctx = canvas.getContext('2d');
 var maxScale = 1;
 
 
-var noOfFish = 10;
+var noOfFish = 20;
 
 
 var imgArray = [
@@ -41,25 +41,31 @@ function Fish (x, y, dx, dy, scale) {
     this.img = imgArray[Math.floor(Math.random()*imgArray.length)];
     this.scale = scale;
 
+    this.fish = new Object();
+    this.fish["image"] =  new Image();
+    this.fish.image.src = this.img;
+
     this.draw = function(){
-        var fish = new Object();
-        fish["image"] =  new Image();
-        fish.image.src = this.img;
-        ctx.drawImage (fish.image, this.x, this.y, fish.image.width*this.scale, fish.image.height*this.scale); 
+
+        ctx.drawImage (this.fish.image, this.x, this.y, this.fish.image.width*this.scale, this.fish.image.height*this.scale); 
+        // var fish = new Object();
+        // fish["image"] =  new Image();
+        // fish.image.src = this.img;
+        // ctx.drawImage (fish.image, this.x, this.y, fish.image.width*this.scale, fish.image.height*this.scale); 
     }
 
     this.update = function(){
-        // if (this.x + this.width > innerWidth || this.x - this.width < 0){
+        // if (this.x > innerWidth || this.x < 0){
         //     this.dx = -this.dx;
         // }
-        // if (this.y + this.height > innerHeight || this.y - this.height < 0){
+        // if (this.y > innerHeight || this.y  < 0){
         //     this.dy = -this.dy;
         // }
 
-        if (this.x > innerWidth || this.x < 0){
+        if (this.x + this.fish.image.width*this.scale > innerWidth || this.x < 0){
             this.dx = -this.dx;
         }
-        if (this.y > innerHeight || this.y  < 0){
+        if (this.y + this.fish.image.height*this.scale > innerHeight || this.y  < 0){
             this.dy = -this.dy;
         }
 
@@ -77,8 +83,8 @@ function init(){
     for (i=0; i<noOfFish; i++){
         var x = Math.random()*innerWidth;
         var y = Math.random()*innerHeight;
-        var dx = (Math.random() - 0.5)*4;
-        var dy = (Math.random() - 0.5)*4;
+        var dx = (Math.random() - 0.5)*2;
+        var dy = (Math.random() - 0.5)*2;
         var scale = Math.random()*maxScale + 0.25;
         fishArray.push(new Fish(x, y, dx, dy, scale));
     }
