@@ -1,3 +1,4 @@
+
 var canvas = document.querySelector("canvas");
 var innerWidth = window.innerWidth;
 var innerHeight = window.innerHeight;
@@ -7,6 +8,7 @@ var ctx = canvas.getContext('2d');
 var maxScale = 1;
 var maxFishWidth = 186;
 var maxFishHeight = 123;
+
 
 var noOfFish = 20;
 
@@ -44,26 +46,33 @@ function Fish (x, y, dx, dy, scale) {
     this.fish = new Object();
     this.fish["image"] =  new Image();
     this.fish.image.src = this.img;
-
-    this.draw = function(){
-
-        ctx.drawImage (this.fish.image, this.x, this.y, this.fish.image.width*this.scale, this.fish.image.height*this.scale); 
-
+    
+    this.draw = function(rotate){
+        rotate ? (ctx.translate(this.x + this.fish.image.width*this.scale/2, this.y + this.fish.image.height*this.scale/2),
+        ctx.scale(-1,1)) : "";
+        ctx.drawImage (this.fish.image, this.x, this.y, this.fish.image.width*this.scale, this.fish.image.height*this.scale);  
     }
 
-    this.update = function(){
 
+    this.update = function(){
+        // if (this.x > innerWidth || this.x < 0){
+        //     this.dx = -this.dx;
+        // }
+        // if (this.y > innerHeight || this.y  < 0){
+        //     this.dy = -this.dy;
+        // }
+        let rotate = false;
         if (this.x + this.fish.image.width*this.scale > innerWidth || this.x < 0){
             this.dx = -this.dx;
+            rotate = true
         }
         if (this.y + this.fish.image.height*this.scale > innerHeight || this.y  < 0){
             this.dy = -this.dy;
         }
-
         this.x += this.dx;
         this.y += this.dy;
 
-        this.draw();
+        this.draw(rotate);
     }
 }
 
@@ -72,11 +81,11 @@ var fishArray = [];
 function init(){
     fishArray = [];
     for (i=0; i<noOfFish; i++){
-        var scale = Math.random()*maxScale + 0.25;
         var x = Math.random()*(innerWidth-maxFishWidth);
         var y = Math.random()*(innerHeight-maxFishHeight);
         var dx = (Math.random() - 0.5)*2;
         var dy = (Math.random() - 0.5)*2;
+        var scale = Math.random()*maxScale + 0.25;
         fishArray.push(new Fish(x, y, dx, dy, scale));
     }
 
@@ -100,3 +109,5 @@ animate();
 //     ctx.drawImage(imageObj, 69, 50);
 //   };
 //   imageObj.src = 'image/fish1.png';
+
+
