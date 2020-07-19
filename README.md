@@ -1,3 +1,3 @@
 # Fish-Tank
 Javascript Canvas
-https://tingtingctt.github.io/Fish-Tank/.
+https://tingtingctt.github.io/Fishes-No-Freedom/.
